@@ -18,3 +18,20 @@ nodeJs环境下koa框架初试
     保存并运行它，node hello.js。
 
 /* Created by wangxiaobo on 16/8/17.*/
+
+##与koa相结合
+       var koa = require('koa');
+       var fs = require('fs');
+       var app = koa();
+       
+       app.use(function *(){
+           //this.response;
+           var html = fs.readFileSync('hello.html');
+           this.set({
+               "Content-Type": "text/html"
+           });
+           this.body = html;
+       });
+       
+       app.listen(3000);
+/*wangxiaobo 16/8/17*/
