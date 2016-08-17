@@ -20,12 +20,15 @@ nodeJs环境下koa框架初试
 /* Created by wangxiaobo on 16/8/17 */
 
 ##与koa相结合
+###fs(File System)
+关于文件操作，那么这边主要的就是fs这个模块。对于node中fs模块提供的API很多，但是其所有的方法均有同步和异步的形式。对于读取文件内容来说，最需要注意的一点就是异步与同步之间控制执行流程的问题。
+下面用的是fs.readFileSync(filename, [options])，一个同步执行读取本地文件的过程：
+
        var koa = require('koa');
        var fs = require('fs');
        var app = koa();
        
        app.use(function *(){
-           //this.response;
            var html = fs.readFileSync('hello.html');
            this.set({
                "Content-Type": "text/html"
