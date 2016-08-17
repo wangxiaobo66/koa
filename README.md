@@ -1,10 +1,10 @@
 # koa
 nodeJs环境下koa框架初试
 
-一、安装node.js 很简单没啥好写的
-Koa框架搭建：
+##一、安装node.js 很简单没啥好写的
+###Koa框架搭建：
        1、npm install koa到指定项目
-二、环境测试：
+##二、环境测试：
     因为nodeJs 不仅可以作为web的后端，而且它甚至就是一个后端服务器环境，你可以通过脚本来创建一个后端服务。
     在项目根目录下创建一个hello.js文件。
     var http = require("http");
