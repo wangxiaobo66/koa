@@ -1,7 +1,8 @@
 # koa
 nodeJs环境下koa框架初试
 
-##一、安装node.js 很简单没啥好写的
+##一、安装node.js 
+       很简单没啥好写的
 ###Koa框架搭建：
        1、npm install koa到指定项目
 ##二、环境测试：
@@ -16,6 +17,4 @@ nodeJs环境下koa框架初试
     }).listen(8888);
     保存并运行它，node hello.js。
 
-/**
- * Created by wangxiaobo on 16/8/17.
- */
+/* Created by wangxiaobo on 16/8/17.*/
