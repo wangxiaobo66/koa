@@ -1,4 +1,4 @@
-# koa
+#koa学习笔记
 nodeJs环境下koa框架初试
 
 ##一、安装node.js 
@@ -45,3 +45,42 @@ nodeJs环境下koa框架初试
 今天卡壳。。明天再写
 
 /* wangxiaobo 16/8/18*/
+
+###koa-router
+今天唠唠对koa-router源码的解读
+##链式调用
+在 koa 中，对中间件的使用是支持链接调用的。同样，
+对于多个路径的请求，koa-router 也支持链式调用：
+
+       router
+       .get('/', function *(next) {
+              this.body = 'Hello World!';
+       })
+       .post('/users', function *(next) {
+              // ...
+       })
+       .put('/users/:id', function *(next) {
+              // ...
+       })
+       .del('/users/:id', function *(next) {
+              // ...
+       });
+       
+因为每个动词方法都会返回router本身：
+
+       methods.forEach(function (method) {
+              Router.prototype[method] = function (name, path, middleware) {
+                     var middleware;
+                     if (typeof path === 'string' || path instanceof RegExp) {
+                            middleware = Array.prototype.slice.call(arguments, 2);
+                     } else {
+                            middleware = Array.prototype.slice.call(arguments, 1);
+                            path = name;
+                            name = null;
+                     }
+                     this.register(path, [method], middleware, {
+                            name: name
+                     });
+              return this;
+              };
+       });
