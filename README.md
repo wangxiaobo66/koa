@@ -48,7 +48,12 @@ nodeJs环境下koa框架初试
 
 ###koa-router
 今天唠唠对koa-router源码的解读
-##链式调用
+参考原文：https://github.com/alexmingoia/koa-router
+###安装
+
+       npm install koa-router
+
+###链式调用
 在 koa 中，对中间件的使用是支持链接调用的。同样，
 对于多个路径的请求，koa-router 也支持链式调用：
 
