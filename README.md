@@ -89,3 +89,80 @@ nodeJs环境下koa框架初试
               return this;
               };
        });
+
+###路由实现
+Node 本身提供了数十个 HTTP 请求动词，koa-router 只是实现了部分常用的：
+
+       function Router(opts) {
+         if (!(this instanceof Router)) {
+           return new Router(opts);
+         }
+       
+         this.opts = opts || {};
+         this.methods = this.opts.methods || [
+           'HEAD',
+           'OPTIONS',
+           'GET',
+           'PUT',
+           'PATCH',
+           'POST',
+           'DELETE'
+         ];
+         //省略
+       };
+       
+这些请求动词的实现是通过第三方模块 methods 支持的，然后 koa-router 内部进行了注册处理：
+
+       methods.forEach(function (method) {
+         Router.prototype[method] = function (name, path, middleware) {
+           //见上述代码
+           this.register(path, [method], middleware, {
+             name: name
+           });
+       
+           return this;
+         };
+       });
+       
+this.register 接受请求路径，方法，中间件作为参数，返回已经注册的路由：
+
+       Router.prototype.register = function (path, methods, middleware, opts) {
+         opts = opts || {};
+       
+         var stack = this.stack;
+          // create route
+         var route = new Layer(path, methods, middleware, {
+           //Layer是具体实现，包括匹配、中间件处理等
+           end: opts.end === false ? opts.end : true,
+           name: opts.name,
+           sensitive: opts.sensitive || this.opts.sensitive || false,
+           strict: opts.strict || this.opts.strict || false,
+           prefix: opts.prefix || this.opts.prefix || "",
+         });
+          //other code
+         return route;
+       };
+       
+由上述代码可知，koa-router 是支持中间件来处理路由的：
+
+       myRouter.use(function* (next) {
+           console.log('aaaaaa');
+           yield next;
+       });
+       
+       myRouter.use(function* (next) {
+           console.log('bbbbbb');
+           yield next;
+       });
+       
+       myRouter.get('/', function *(next) {
+           console.log('ccccccc');
+           this.response.body = 'Hello World!';
+       });
+       
+       myRouter.get('/test', function *(next) {
+           console.log('dddddd');
+           this.response.body = 'test router middleware';
+       });
+
+/* wangxiaobo 16/8/21 */
